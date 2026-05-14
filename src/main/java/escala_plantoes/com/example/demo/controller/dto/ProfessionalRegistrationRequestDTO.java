@@ -1,8 +1,11 @@
 package escala_plantoes.com.example.demo.controller.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public record ProfessionalRegistrationRequestDTO(
-        String category,
-        String state,
-        String type,
-        String registrationNumber
+        @NotBlank String category,
+        @NotBlank String state,
+        @NotBlank String type,
+        @NotBlank @Pattern(regexp = "\\d+", message = "Registration number must contain only digits") String registrationNumber
 ) {}
