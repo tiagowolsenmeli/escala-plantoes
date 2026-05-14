@@ -19,12 +19,10 @@ public class Professional {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "registration_number", nullable = false, unique = true)
-    private String registrationNumber;
-
-    @Column(nullable = false)
-    private String category;
-
     @Column(name = "work_schedule", nullable = false)
     private int workSchedule;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "registration_id", nullable = false)
+    private ProfessionalRegistration registration;
 }

@@ -4,6 +4,7 @@ import escala_plantoes.com.example.demo.controller.dto.ProfessionalRequestDTO;
 import escala_plantoes.com.example.demo.controller.dto.ProfessionalResponseDTO;
 import escala_plantoes.com.example.demo.usecase.ListProfessionalsUseCase;
 import escala_plantoes.com.example.demo.usecase.RegisterProfessionalUseCase;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class ProfessionalController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> register(@RequestBody ProfessionalRequestDTO dto) {
+    public ResponseEntity<Long> register(@Valid @RequestBody ProfessionalRequestDTO dto) {
         ProfessionalResponseDTO response = registerUseCase.execute(dto);
         return ResponseEntity.ok(response.id());
     }
