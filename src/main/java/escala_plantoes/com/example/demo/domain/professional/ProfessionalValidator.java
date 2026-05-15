@@ -9,7 +9,7 @@ public class ProfessionalValidator {
     private static final List<Integer> VALID_WORK_SCHEDULES = List.of(20, 30, 40);
     private static final List<String> VALID_CATEGORIES = List.of("MÉDICO", "ENFERMEIRO", "TÉCNICO");
 
-    public void validate(ProfessionalRequestDTO dto) {
+    public static void validate(ProfessionalRequestDTO dto) {
         if (dto.name() == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
