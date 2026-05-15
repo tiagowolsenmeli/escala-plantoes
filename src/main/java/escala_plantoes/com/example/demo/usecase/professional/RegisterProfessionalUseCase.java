@@ -4,8 +4,11 @@ import escala_plantoes.com.example.demo.controller.professional.dto.Professional
 import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalResponseDTO;
 import escala_plantoes.com.example.demo.domain.professional.Professional;
 import escala_plantoes.com.example.demo.domain.professional.ProfessionalRegistration;
+import escala_plantoes.com.example.demo.domain.professional.ProfessionalValidator;
 import escala_plantoes.com.example.demo.service.professional.ProfessionalService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RegisterProfessionalUseCase {
 
     private final ProfessionalService service;
@@ -15,6 +18,12 @@ public class RegisterProfessionalUseCase {
     }
 
     public ProfessionalResponseDTO execute(ProfessionalRequestDTO dto) {
+        ProfessionalValidator.validate(dto);
+        Professional professional = getProfessional(dto);
+        return ProfessionalResponseDTO.from(service.register(professional));
+    }
+
+    private static Professional getProfessional(ProfessionalRequestDTO dto) {
         ProfessionalRegistration registration = new ProfessionalRegistration();
         registration.setCategory(dto.registration().category());
         registration.setState(dto.registration().state());
@@ -25,7 +34,6 @@ public class RegisterProfessionalUseCase {
         professional.setName(dto.name());
         professional.setWorkSchedule(dto.workSchedule());
         professional.setRegistration(registration);
-
-        return ProfessionalResponseDTO.from(service.register(professional));
+        return professional;
     }
 }
