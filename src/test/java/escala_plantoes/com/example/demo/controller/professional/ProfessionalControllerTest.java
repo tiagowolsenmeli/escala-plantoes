@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.*;
@@ -26,24 +28,16 @@ class ProfessionalControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Map<String, Object> validRequest() {
-        return Map.of(
-                "name", "Dr. João Silva",
-                "workSchedule", 40,
-                "registration", Map.of(
-                        "category", "MÉDICO",
-                        "state", "SP",
-                        "type", "CRM",
-                        "registrationNumber", "123456"
-                )
-        );
+    private String validRequest() throws Exception {
+        return new ClassPathResource("fixtures/professional/valid-professional-request.json")
+                .getContentAsString(StandardCharsets.UTF_8);
     }
 
     @Test
     void register_returnsIdOnSuccess() throws Exception {
         mockMvc.perform(post("/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validRequest())))
+                        .content(validRequest()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isNumber());
@@ -53,7 +47,7 @@ class ProfessionalControllerTest {
     void register_persistsProfessionalVisibleInList() throws Exception {
         mockMvc.perform(post("/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validRequest())))
+                        .content(validRequest()))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/professionals"))
