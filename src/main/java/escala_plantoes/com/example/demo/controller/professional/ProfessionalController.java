@@ -41,7 +41,7 @@ public class ProfessionalController {
 
     @GetMapping("/category")
     public ResponseEntity<List<ProfessionalResponseDTO>> listByCategory(
-            @Valid @RequestBody ProfessionalFilterRequestDTO filter) {
+            @Valid @ModelAttribute ProfessionalFilterRequestDTO filter) {
         return ResponseEntity.ok(listByCategoryUseCase.execute(filter));
     }
 }
