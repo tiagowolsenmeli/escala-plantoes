@@ -1,4 +1,4 @@
-package escala_plantoes.com.example.demo.domain;
+package escala_plantoes.com.example.demo.domain.professional;
 
 import jakarta.persistence.*;
 import lombok.Getter;

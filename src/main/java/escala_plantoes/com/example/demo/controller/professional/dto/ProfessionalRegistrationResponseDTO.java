@@ -1,6 +1,6 @@
-package escala_plantoes.com.example.demo.controller.dto;
+package escala_plantoes.com.example.demo.controller.professional.dto;
 
-import escala_plantoes.com.example.demo.domain.ProfessionalRegistration;
+import escala_plantoes.com.example.demo.domain.professional.ProfessionalRegistration;
 
 public record ProfessionalRegistrationResponseDTO(
         Long id,

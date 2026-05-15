@@ -1,4 +1,4 @@
-package escala_plantoes.com.example.demo.controller.dto;
+package escala_plantoes.com.example.demo.controller.professional.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

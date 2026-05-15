@@ -1,10 +1,10 @@
-package escala_plantoes.com.example.demo.usecase;
+package escala_plantoes.com.example.demo.usecase.professional;
 
-import escala_plantoes.com.example.demo.controller.dto.ProfessionalRequestDTO;
-import escala_plantoes.com.example.demo.controller.dto.ProfessionalResponseDTO;
-import escala_plantoes.com.example.demo.domain.Professional;
-import escala_plantoes.com.example.demo.domain.ProfessionalRegistration;
-import escala_plantoes.com.example.demo.service.ProfessionalService;
+import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalRequestDTO;
+import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalResponseDTO;
+import escala_plantoes.com.example.demo.domain.professional.Professional;
+import escala_plantoes.com.example.demo.domain.professional.ProfessionalRegistration;
+import escala_plantoes.com.example.demo.service.professional.ProfessionalService;
 
 public class RegisterProfessionalUseCase {
 

@@ -1,6 +1,6 @@
-package escala_plantoes.com.example.demo.domain;
+package escala_plantoes.com.example.demo.domain.professional;
 
-import escala_plantoes.com.example.demo.controller.dto.ProfessionalRequestDTO;
+import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalRequestDTO;
 
 import java.util.List;
 
