@@ -1,6 +1,7 @@
 package escala_plantoes.com.example.demo.service.plantao;
 
 import escala_plantoes.com.example.demo.domain.plantao.Plantao;
+import escala_plantoes.com.example.demo.domain.plantao.PlantaoNotFoundException;
 import escala_plantoes.com.example.demo.domain.plantao.Turno;
 import escala_plantoes.com.example.demo.infrastructure.plantao.PlantaoRepository;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class PlantaoService {
 
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new IllegalArgumentException("Plantao not found: " + id);
+            throw new PlantaoNotFoundException(id);
         }
         repository.deleteById(id);
     }
