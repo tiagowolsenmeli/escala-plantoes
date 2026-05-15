@@ -227,8 +227,7 @@ class ProfessionalControllerTest {
 
     private org.springframework.test.web.servlet.ResultActions listByCategory(String category) throws Exception {
         return mockMvc.perform(get("/professionals/category")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(Map.of("category", category))))
+                .param("category", category))
                 .andExpect(status().isOk());
     }
 }

@@ -1,6 +1,7 @@
 package escala_plantoes.com.example.demo.domain.professional;
 
 import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalRequestDTO;
+import escala_plantoes.com.example.demo.exception.BadRequestException;
 
 import java.util.List;
 
@@ -11,22 +12,22 @@ public class ProfessionalValidator {
 
     public static void validate(ProfessionalRequestDTO dto) {
         if (dto.name() == null) {
-            throw new IllegalArgumentException("Name cannot be null");
+            throw new BadRequestException("Name cannot be null");
         }
         if (dto.registration() == null) {
-            throw new IllegalArgumentException("Registration cannot be null");
+            throw new BadRequestException("Registration cannot be null");
         }
         if (dto.registration().registrationNumber() == null) {
-            throw new IllegalArgumentException("Registration number cannot be null");
+            throw new BadRequestException("Registration number cannot be null");
         }
         if (!dto.registration().registrationNumber().matches("\\d+")) {
-            throw new IllegalArgumentException("Registration number must contain only digits");
+            throw new BadRequestException("Registration number must contain only digits");
         }
         if (!VALID_WORK_SCHEDULES.contains(dto.workSchedule())) {
-            throw new IllegalArgumentException("Work schedule must be 20, 30 or 40 hours");
+            throw new BadRequestException("Work schedule must be 20, 30 or 40 hours");
         }
         if (!VALID_CATEGORIES.contains(dto.registration().category())) {
-            throw new IllegalArgumentException("Category must be MÉDICO, ENFERMEIRO or TÉCNICO");
+            throw new BadRequestException("Category must be MÉDICO, ENFERMEIRO or TÉCNICO");
         }
     }
 }

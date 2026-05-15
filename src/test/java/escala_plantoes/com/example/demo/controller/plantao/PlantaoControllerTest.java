@@ -1,6 +1,8 @@
 package escala_plantoes.com.example.demo.controller.plantao;
 
 import tools.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,9 @@ class PlantaoControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     // --- register ---
 
@@ -151,9 +156,12 @@ class PlantaoControllerTest {
     // --- delete ---
 
     @Test
-    void delete_returns204OnSuccess() throws Exception {
+    void delete_returnsNoContent_whenPlantaoExists() throws Exception {
         Long professionalId = registerProfessional();
-        Long plantaoId = registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "NOITE");
+        Long plantaoId = registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "MANHA");
+
+        entityManager.flush();
+        entityManager.clear();
 
         mockMvc.perform(delete("/plantoes/" + plantaoId))
                 .andExpect(status().isNoContent());
@@ -162,6 +170,24 @@ class PlantaoControllerTest {
     @Test
     void delete_returnsNotFound_whenIdNotFound() throws Exception {
         mockMvc.perform(delete("/plantoes/99999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void delete_returnsNotFound_whenAlreadyDeleted() throws Exception {
+        Long professionalId = registerProfessional();
+        Long plantaoId = registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "TARDE");
+
+        entityManager.flush();
+        entityManager.clear();
+
+        mockMvc.perform(delete("/plantoes/" + plantaoId))
+                .andExpect(status().isNoContent());
+
+        entityManager.flush();
+        entityManager.clear();
+
+        mockMvc.perform(delete("/plantoes/" + plantaoId))
                 .andExpect(status().isNotFound());
     }
 
