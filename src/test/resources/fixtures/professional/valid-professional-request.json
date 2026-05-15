@@ -1,0 +1,10 @@
+{
+  "name": "Dr. João Silva",
+  "workSchedule": 40,
+  "registration": {
+    "category": "MÉDICO",
+    "state": "SP",
+    "type": "CRM",
+    "registrationNumber": "123456"
+  }
+}
