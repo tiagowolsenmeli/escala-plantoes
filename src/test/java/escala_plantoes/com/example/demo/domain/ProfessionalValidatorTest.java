@@ -1,7 +1,8 @@
 package escala_plantoes.com.example.demo.domain;
 
-import escala_plantoes.com.example.demo.controller.dto.ProfessionalRegistrationRequestDTO;
-import escala_plantoes.com.example.demo.controller.dto.ProfessionalRequestDTO;
+import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalRegistrationRequestDTO;
+import escala_plantoes.com.example.demo.controller.professional.dto.ProfessionalRequestDTO;
+import escala_plantoes.com.example.demo.domain.professional.ProfessionalValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
