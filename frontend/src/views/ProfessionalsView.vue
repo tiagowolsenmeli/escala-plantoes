@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useProfessionalsStore } from '@/stores/professionals'
 
 const store = useProfessionalsStore()
@@ -11,6 +11,10 @@ const form = reactive({
 })
 const success = ref(false)
 const formError = ref<string | null>(null)
+
+watch(() => form.registration.category, (category) => {
+  form.registration.type = category === 'MÉDICO' ? 'CRM' : 'COREN'
+})
 
 onMounted(() => store.fetch())
 
