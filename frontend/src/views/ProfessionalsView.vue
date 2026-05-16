@@ -52,7 +52,12 @@ async function submit() {
         </div>
         <div class="field">
           <label>Categoria</label>
-          <input v-model="form.registration.category" required />
+          <select v-model="form.registration.category" required>
+            <option value="" disabled>Selecione...</option>
+            <option value="MÉDICO">MÉDICO</option>
+            <option value="ENFERMEIRO">ENFERMEIRO</option>
+            <option value="TÉCNICO">TÉCNICO</option>
+          </select>
         </div>
         <div class="field">
           <label>Estado (UF)</label>
