@@ -130,6 +130,26 @@ class ProfessionalControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void register_returnsBadRequest_whenWorkScheduleIsNotAllowed() throws Exception {
+        Map<String, Object> request = Map.of(
+                "name", "Dr. Pedro",
+                "workSchedule", 25,
+                "registration", Map.of(
+                        "category", "MÉDICO",
+                        "state", "MG",
+                        "type", "CRM",
+                        "registrationNumber", "654321"
+                )
+        );
+
+        mockMvc.perform(post("/professionals")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Work schedule must be 20, 30 or 40 hours"));
+    }
+
     // --- listByCategory ---
 
     @Test
