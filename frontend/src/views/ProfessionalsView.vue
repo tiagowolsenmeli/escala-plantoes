@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useProfessionalsStore } from '@/stores/professionals'
 
 const store = useProfessionalsStore()
@@ -11,6 +11,19 @@ const form = reactive({
 })
 const success = ref(false)
 const formError = ref<string | null>(null)
+const registrationNumberError = ref(false)
+
+function handleRegistrationInput(event: Event) {
+  const raw = (event.target as HTMLInputElement).value
+  if (/\D/.test(raw)) {
+    registrationNumberError.value = true
+  }
+  form.registration.registrationNumber = raw.replace(/\D/g, '')
+}
+
+watch(() => form.registration.category, (category) => {
+  form.registration.type = category === 'MÉDICO' ? 'CRM' : 'COREN'
+})
 
 onMounted(() => store.fetch())
 
@@ -52,22 +65,61 @@ async function submit() {
         </div>
         <div class="field">
           <label>Categoria</label>
-          <input v-model="form.registration.category" required />
-        </div>
-        <div class="field">
-          <label>Estado (UF)</label>
-          <input v-model="form.registration.state" maxlength="2" required />
-        </div>
-        <div class="field">
-          <label>Tipo de registro</label>
-          <select v-model="form.registration.type">
-            <option value="CRM">CRM</option>
-            <option value="COREN">COREN</option>
+          <select v-model="form.registration.category" required>
+            <option value="" disabled>Selecione...</option>
+            <option value="MÉDICO">MÉDICO</option>
+            <option value="ENFERMEIRO">ENFERMEIRO</option>
+            <option value="TÉCNICO">TÉCNICO</option>
           </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Estado (UF)</label>
+            <select v-model="form.registration.state" required>
+              <option value="" disabled>Selecione...</option>
+              <option value="AC">AC</option>
+              <option value="AL">AL</option>
+              <option value="AP">AP</option>
+              <option value="AM">AM</option>
+              <option value="BA">BA</option>
+              <option value="CE">CE</option>
+              <option value="DF">DF</option>
+              <option value="ES">ES</option>
+              <option value="GO">GO</option>
+              <option value="MA">MA</option>
+              <option value="MT">MT</option>
+              <option value="MS">MS</option>
+              <option value="MG">MG</option>
+              <option value="PA">PA</option>
+              <option value="PB">PB</option>
+              <option value="PR">PR</option>
+              <option value="PE">PE</option>
+              <option value="PI">PI</option>
+              <option value="RJ">RJ</option>
+              <option value="RN">RN</option>
+              <option value="RS">RS</option>
+              <option value="RO">RO</option>
+              <option value="RR">RR</option>
+              <option value="SC">SC</option>
+              <option value="SP">SP</option>
+              <option value="SE">SE</option>
+              <option value="TO">TO</option>
+            </select>
+          </div>
+          <div class="field" v-if="form.registration.category">
+            <label>Tipo de registro</label>
+            <span class="info-value">{{ form.registration.type }}</span>
+          </div>
         </div>
         <div class="field">
           <label>Número de registro</label>
-          <input v-model="form.registration.registrationNumber" required />
+          <input
+            v-model="form.registration.registrationNumber"
+            inputmode="numeric"
+            @input="handleRegistrationInput"
+            required
+          />
+          <span v-if="registrationNumberError" class="field-error">Apenas números são permitidos.</span>
         </div>
         <p v-if="formError" class="error">{{ formError }}</p>
         <p v-if="success" class="success">Profissional cadastrado com sucesso.</p>

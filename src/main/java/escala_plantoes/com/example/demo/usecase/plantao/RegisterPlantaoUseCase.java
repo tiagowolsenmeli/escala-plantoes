@@ -2,12 +2,16 @@ package escala_plantoes.com.example.demo.usecase.plantao;
 
 import escala_plantoes.com.example.demo.controller.plantao.dto.PlantaoRequestDTO;
 import escala_plantoes.com.example.demo.controller.plantao.dto.PlantaoResponseDTO;
-import escala_plantoes.com.example.demo.domain.plantao.Plantao;
+import escala_plantoes.com.example.demo.domain.plantao.CargaHorariaExceededException;
 import escala_plantoes.com.example.demo.domain.plantao.DuplicatePlantaoException;
+import escala_plantoes.com.example.demo.domain.plantao.Plantao;
 import escala_plantoes.com.example.demo.domain.professional.Professional;
 import escala_plantoes.com.example.demo.service.plantao.PlantaoService;
 import escala_plantoes.com.example.demo.service.professional.ProfessionalService;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class RegisterPlantaoUseCase {
@@ -27,11 +31,32 @@ public class RegisterPlantaoUseCase {
             throw new DuplicatePlantaoException();
         }
 
+        validateCargaHoraria(professional, dto);
+
         Plantao plantao = new Plantao();
         plantao.setProfessional(professional);
         plantao.setData(dto.data());
         plantao.setTurno(dto.turno());
 
         return PlantaoResponseDTO.from(plantaoService.register(plantao));
+    }
+
+    private void validateCargaHoraria(Professional professional, PlantaoRequestDTO dto) {
+        LocalDate start = dto.data().minusDays(3);
+        LocalDate end = dto.data().plusDays(3);
+
+        List<Plantao> plantaosNaJanela = plantaoService.listByProfessionalAndPeriod(
+            professional.getId(), start, end
+        );
+
+        int horasUsadas = plantaosNaJanela.stream()
+            .mapToInt(p -> p.getTurno().getHours())
+            .sum();
+
+        int horasNovoPlantao = dto.turno().getHours();
+
+        if (horasUsadas + horasNovoPlantao > professional.getWorkSchedule()) {
+            throw new CargaHorariaExceededException(horasUsadas, horasNovoPlantao, professional.getWorkSchedule());
+        }
     }
 }

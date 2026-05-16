@@ -11,5 +11,7 @@ public interface PlantaoRepository extends JpaRepository<Plantao, Long> {
 
     List<Plantao> findAllByDataBetweenOrderByDataAscTurnoAsc(LocalDate start, LocalDate end);
 
+    List<Plantao> findAllByProfessional_IdAndDataBetween(Long professionalId, LocalDate start, LocalDate end);
+
     boolean existsByProfessional_IdAndTurnoAndData(Long professionalId, Turno turno, LocalDate data);
 }

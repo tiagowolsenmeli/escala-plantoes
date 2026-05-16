@@ -33,6 +33,16 @@
   margin-bottom: 0.75rem;
 }
 
+.field-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.field-row .field {
+  flex: 1;
+}
+
 .field label {
   font-size: 0.85rem;
   color: var(--color-text);
@@ -43,6 +53,15 @@ input, select {
   border: 1px solid var(--color-border);
   border-radius: 4px;
   background: var(--color-background);
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.info-value {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-background-soft);
   color: var(--color-text);
   font-size: 0.95rem;
 }
@@ -104,6 +123,11 @@ th {
 .error {
   color: #e74c3c;
   font-size: 0.9rem;
+}
+
+.field-error {
+  color: #e74c3c;
+  font-size: 0.8rem;
 }
 
 .success {

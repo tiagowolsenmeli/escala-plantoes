@@ -1,5 +1,18 @@
 import http from './http'
-import type { PlantaoResponse } from './plantoes'
+
+export interface PlantaoEscalaItem {
+  id: number
+  data: string
+  turno: string
+}
+
+export interface EscalaResponse {
+  professionalId: number
+  professionalName: string
+  professionalCategory: string
+  professionalRegistrationNumber: string
+  plantoes: PlantaoEscalaItem[]
+}
 
 export const getEscala = (data: string) =>
-  http.get<PlantaoResponse[]>('/escala', { params: { data } }).then(r => r.data)
+  http.get<EscalaResponse[]>('/escala', { params: { data } }).then(r => r.data)

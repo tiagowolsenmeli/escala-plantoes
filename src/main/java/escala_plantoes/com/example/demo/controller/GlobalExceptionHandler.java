@@ -1,5 +1,6 @@
 package escala_plantoes.com.example.demo.controller;
 
+import escala_plantoes.com.example.demo.domain.plantao.CargaHorariaExceededException;
 import escala_plantoes.com.example.demo.domain.plantao.DuplicatePlantaoException;
 import escala_plantoes.com.example.demo.domain.plantao.PlantaoNotFoundException;
 import escala_plantoes.com.example.demo.exception.BadRequestException;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicatePlantaoException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     ErrorResponse handleDuplicatePlantao(DuplicatePlantaoException ex) {
+        return new ErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(CargaHorariaExceededException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    ErrorResponse handleCargaHorariaExceeded(CargaHorariaExceededException ex) {
         return new ErrorResponse(ex.getMessage());
     }
 

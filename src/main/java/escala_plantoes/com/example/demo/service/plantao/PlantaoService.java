@@ -30,6 +30,10 @@ public class PlantaoService {
         return repository.findAllByDataBetweenOrderByDataAscTurnoAsc(start, end);
     }
 
+    public List<Plantao> listByProfessionalAndPeriod(Long professionalId, LocalDate start, LocalDate end) {
+        return repository.findAllByProfessional_IdAndDataBetween(professionalId, start, end);
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new PlantaoNotFoundException(id);

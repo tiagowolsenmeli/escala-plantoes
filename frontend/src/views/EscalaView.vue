@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getEscala } from '@/api/escala'
-import type { PlantaoResponse } from '@/api/plantoes'
+import type { EscalaResponse } from '@/api/escala'
 
 const today = new Date().toISOString().slice(0, 10)
 const selectedDate = ref(today)
-const escala = ref<PlantaoResponse[]>([])
+const escala = ref<EscalaResponse[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 
@@ -23,11 +23,19 @@ async function buscar() {
   }
 }
 
-const dias = (data: string) => {
-  const dias: Record<string, PlantaoResponse[]> = {}
-  for (const p of data ? escala.value : []) {
-    if (!dias[p.data]) dias[p.data] = []
-    dias[p.data].push(p)
+interface DiaEntry {
+  professional: EscalaResponse
+  plantaoId: number
+  turno: string
+}
+
+function porDia(): [string, DiaEntry[]][] {
+  const dias: Record<string, DiaEntry[]> = {}
+  for (const professional of escala.value) {
+    for (const plantao of professional.plantoes) {
+      if (!dias[plantao.data]) dias[plantao.data] = []
+      dias[plantao.data].push({ professional, plantaoId: plantao.id, turno: plantao.turno })
+    }
   }
   return Object.entries(dias).sort(([a], [b]) => a.localeCompare(b))
 }
@@ -49,25 +57,25 @@ const dias = (data: string) => {
     <p v-else-if="error" class="error">{{ error }}</p>
 
     <section v-else-if="escala.length" class="card">
-      <div v-for="[data, plantoes] in dias(selectedDate)" :key="data" class="day-block">
+      <div v-for="[data, entradas] in porDia()" :key="data" class="day-block">
         <h3>{{ data }}</h3>
         <table>
           <thead>
             <tr><th>Turno</th><th>Profissional</th><th>Categoria</th><th>Registro</th></tr>
           </thead>
           <tbody>
-            <tr v-for="p in plantoes" :key="p.id">
-              <td>{{ turnoLabel[p.turno] }}</td>
-              <td>{{ p.professionalName }}</td>
-              <td>{{ p.professionalCategory }}</td>
-              <td>{{ p.professionalRegistrationNumber }}</td>
+            <tr v-for="e in entradas" :key="e.plantaoId">
+              <td>{{ turnoLabel[e.turno] }}</td>
+              <td>{{ e.professional.professionalName }}</td>
+              <td>{{ e.professional.professionalCategory }}</td>
+              <td>{{ e.professional.professionalRegistrationNumber }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <p v-else-if="escala.length === 0 && !loading && error === null && selectedDate !== today">
+    <p v-else-if="!loading && error === null && selectedDate !== today">
       Nenhum plantão encontrado para este período.
     </p>
   </div>
