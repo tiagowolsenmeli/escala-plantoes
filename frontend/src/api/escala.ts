@@ -15,4 +15,4 @@ export interface EscalaResponse {
 }
 
 export const getEscala = (data: string) =>
-  http.get<EscalaResponse[]>('/escala', { params: { data } }).then(r => r.data)
+  http.get<EscalaResponse[]>('/api/escala', { params: { data } }).then(r => r.data)

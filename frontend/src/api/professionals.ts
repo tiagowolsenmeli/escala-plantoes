@@ -26,10 +26,10 @@ export interface ProfessionalRequest {
 }
 
 export const listProfessionals = () =>
-  http.get<ProfessionalResponse[]>('/professionals').then(r => r.data)
+  http.get<ProfessionalResponse[]>('/api/professionals').then(r => r.data)
 
 export const listByCategory = (category: string) =>
-  http.get<ProfessionalResponse[]>('/professionals/category', { params: { category } }).then(r => r.data)
+  http.get<ProfessionalResponse[]>('/api/professionals/category', { params: { category } }).then(r => r.data)
 
 export const registerProfessional = (data: ProfessionalRequest) =>
-  http.post<number>('/professionals', data).then(r => r.data)
+  http.post<number>('/api/professionals', data).then(r => r.data)

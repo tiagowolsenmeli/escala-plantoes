@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { getEscala } from '@/api/escala'
 import type { EscalaResponse } from '@/api/escala'
 
@@ -10,6 +10,8 @@ const loading = ref(false)
 const error = ref<string | null>(null)
 
 const turnoLabel: Record<string, string> = { MANHA: 'Manhã', TARDE: 'Tarde', NOITE: 'Noite' }
+const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+const turnoOrdem = ['MANHA', 'TARDE', 'NOITE']
 
 async function buscar() {
   loading.value = true
@@ -23,21 +25,29 @@ async function buscar() {
   }
 }
 
-interface DiaEntry {
-  professional: EscalaResponse
-  plantaoId: number
-  turno: string
+const dias = computed(() => {
+  const base = new Date(selectedDate.value + 'T00:00:00')
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(base)
+    d.setDate(base.getDate() + i)
+    return d.toISOString().slice(0, 10)
+  })
+})
+
+function diaSemana(data: string): string {
+  return diasSemana[new Date(data + 'T00:00:00').getDay()]!
 }
 
-function porDia(): [string, DiaEntry[]][] {
-  const dias: Record<string, DiaEntry[]> = {}
-  for (const professional of escala.value) {
-    for (const plantao of professional.plantoes) {
-      if (!dias[plantao.data]) dias[plantao.data] = []
-      dias[plantao.data].push({ professional, plantaoId: plantao.id, turno: plantao.turno })
-    }
-  }
-  return Object.entries(dias).sort(([a], [b]) => a.localeCompare(b))
+function formatDia(data: string): string {
+  const [, m, d] = data.split('-')
+  return `${d}/${m}`
+}
+
+function turnosDoDia(prof: EscalaResponse, data: string): string[] {
+  return prof.plantoes
+    .filter(p => p.data === data)
+    .map(p => p.turno)
+    .sort((a, b) => turnoOrdem.indexOf(a) - turnoOrdem.indexOf(b))
 }
 </script>
 
@@ -56,26 +66,38 @@ function porDia(): [string, DiaEntry[]][] {
     <p v-if="loading">Carregando...</p>
     <p v-else-if="error" class="error">{{ error }}</p>
 
-    <section v-else-if="escala.length" class="card">
-      <div v-for="[data, entradas] in porDia()" :key="data" class="day-block">
-        <h3>{{ data }}</h3>
-        <table>
+    <section v-else-if="escala.length" class="card escala-card">
+      <div class="escala-grid-wrap">
+        <table class="escala-grid">
           <thead>
-            <tr><th>Turno</th><th>Profissional</th><th>Categoria</th><th>Registro</th></tr>
+            <tr>
+              <th class="col-prof">Profissional</th>
+              <th v-for="dia in dias" :key="dia" class="col-dia">
+                <span class="dia-semana">{{ diaSemana(dia) }}</span>
+                <span class="dia-data">{{ formatDia(dia) }}</span>
+              </th>
+            </tr>
           </thead>
           <tbody>
-            <tr v-for="e in entradas" :key="e.plantaoId">
-              <td>{{ turnoLabel[e.turno] }}</td>
-              <td>{{ e.professional.professionalName }}</td>
-              <td>{{ e.professional.professionalCategory }}</td>
-              <td>{{ e.professional.professionalRegistrationNumber }}</td>
+            <tr v-for="prof in escala" :key="prof.professionalId">
+              <td class="col-prof">
+                <span class="prof-nome">{{ prof.professionalName }}</span>
+                <span class="prof-info">{{ prof.professionalCategory }} · {{ prof.professionalRegistrationNumber }}</span>
+              </td>
+              <td v-for="dia in dias" :key="dia" class="col-turnos">
+                <span
+                  v-for="turno in turnosDoDia(prof, dia)"
+                  :key="turno"
+                  :class="['turno-badge', `turno-${turno.toLowerCase()}`]"
+                >{{ turnoLabel[turno] }}</span>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <p v-else-if="!loading && error === null && selectedDate !== today">
+    <p v-else-if="!loading && error === null">
       Nenhum plantão encontrado para este período.
     </p>
   </div>

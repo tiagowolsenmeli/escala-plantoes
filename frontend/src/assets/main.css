@@ -120,6 +120,87 @@ th {
   margin-bottom: 0.5rem;
 }
 
+.escala-card {
+  overflow-x: auto;
+}
+
+.escala-grid-wrap {
+  overflow-x: auto;
+}
+
+.escala-grid {
+  min-width: 700px;
+}
+
+.escala-grid th,
+.escala-grid td {
+  border: 1px solid var(--color-border);
+}
+
+.col-prof {
+  min-width: 160px;
+}
+
+.col-dia {
+  min-width: 88px;
+  text-align: center;
+}
+
+.col-turnos {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.35rem 0.4rem;
+}
+
+.dia-semana {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.dia-data {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.prof-nome {
+  display: block;
+  font-weight: 500;
+}
+
+.prof-info {
+  display: block;
+  font-size: 0.78rem;
+  opacity: 0.6;
+}
+
+.turno-badge {
+  display: inline-block;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 0.1rem;
+  white-space: nowrap;
+}
+
+.turno-manha {
+  background: #fff3cd;
+  color: #7a5800;
+}
+
+.turno-tarde {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.turno-noite {
+  background: #e0d7f5;
+  color: #3b1f8c;
+}
+
 .error {
   color: #e74c3c;
   font-size: 0.9rem;

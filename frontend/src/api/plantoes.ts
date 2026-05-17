@@ -19,7 +19,7 @@ export interface PlantaoResponse {
 }
 
 export const registerPlantao = (data: PlantaoRequest) =>
-  http.post<PlantaoResponse>('/plantoes', data).then(r => r.data)
+  http.post<PlantaoResponse>('/api/plantoes', data).then(r => r.data)
 
 export const deletePlantao = (id: number) =>
-  http.delete(`/plantoes/${id}`)
+  http.delete(`/api/plantoes/${id}`)

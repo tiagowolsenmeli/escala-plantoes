@@ -17,9 +17,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/professionals': 'http://localhost:8080',
-      '/plantoes': 'http://localhost:8080',
-      '/escala': 'http://localhost:8080',
+      '/api': 'http://localhost:8080',
     },
   },
 })
