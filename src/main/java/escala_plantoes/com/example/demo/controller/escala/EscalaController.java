@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/escala")
+@RequestMapping("/api/escala")
 public class EscalaController {
 
     private final ListEscalaUseCase listEscalaUseCase;
