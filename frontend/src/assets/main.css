@@ -67,6 +67,16 @@
   flex: 1;
 }
 
+.field-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.field-row .field {
+  flex: 1;
+}
+
 .field label {
   font-size: 0.825rem;
   font-weight: 600;
@@ -107,7 +117,6 @@ select:focus {
   font-weight: 600;
 }
 
-/* Buttons */
 button {
   margin-top: 0.25rem;
   padding: 0.55rem 1.25rem;
@@ -382,6 +391,11 @@ table:not(.escala-grid) tbody tr:hover td {
 
 .field-error {
   color: var(--color-error);
+  font-size: 0.8rem;
+}
+
+.field-error {
+  color: #e74c3c;
   font-size: 0.8rem;
 }
 
