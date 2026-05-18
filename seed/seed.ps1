@@ -45,22 +45,31 @@ Write-Host "Cadastrando plantoes para os proximos 7 dias..." -ForegroundColor Cy
 $dates = 0..6 | ForEach-Object { (Get-Date).AddDays($_).ToString("yyyy-MM-dd") }
 
 $plantoes = @(
-    @{ i = 0; data = $dates[0]; turno = "MANHA" }
-    @{ i = 1; data = $dates[0]; turno = "TARDE" }
-    @{ i = 3; data = $dates[0]; turno = "NOITE" }
-    @{ i = 4; data = $dates[1]; turno = "MANHA" }
-    @{ i = 2; data = $dates[1]; turno = "TARDE" }
-    @{ i = 5; data = $dates[1]; turno = "NOITE" }
-    @{ i = 0; data = $dates[2]; turno = "TARDE" }
-    @{ i = 6; data = $dates[2]; turno = "MANHA" }
-    @{ i = 2; data = $dates[3]; turno = "MANHA" }
-    @{ i = 3; data = $dates[3]; turno = "NOITE" }
-    @{ i = 1; data = $dates[4]; turno = "MANHA" }
-    @{ i = 5; data = $dates[4]; turno = "TARDE" }
-    @{ i = 4; data = $dates[5]; turno = "NOITE" }
-    @{ i = 6; data = $dates[5]; turno = "MANHA" }
-    @{ i = 0; data = $dates[6]; turno = "NOITE" }
-    @{ i = 2; data = $dates[6]; turno = "TARDE" }
+    # Dia +0: plantao isolado
+    @{ i = 2; data = $dates[0]; turno = "MANHA" }   # Dr. Ricardo Lima
+
+    # Dia +1: plantoes isolados em turnos distintos
+    @{ i = 4; data = $dates[1]; turno = "TARDE" }   # Enf. Marcos Oliveira
+    @{ i = 6; data = $dates[1]; turno = "NOITE" }   # Tec. Bruno Almeida
+
+    # Dia +2: MANHA + TARDE no mesmo dia (2 medicos)
+    @{ i = 0; data = $dates[2]; turno = "MANHA" }   # Dr. Carlos Mendes
+    @{ i = 1; data = $dates[2]; turno = "TARDE" }   # Dra. Ana Paula Ribeiro
+
+    # Dia +3: plantao isolado
+    @{ i = 2; data = $dates[3]; turno = "NOITE" }   # Dr. Ricardo Lima
+
+    # Dia +4: MANHA + TARDE + NOITE no mesmo dia (1 medico, 1 enfermeiro, 1 tecnico)
+    @{ i = 0; data = $dates[4]; turno = "MANHA" }   # Dr. Carlos Mendes
+    @{ i = 3; data = $dates[4]; turno = "TARDE" }   # Enf. Juliana Santos
+    @{ i = 5; data = $dates[4]; turno = "NOITE" }   # Tec. Fernanda Costa
+
+    # Dia +5: plantoes isolados em turnos distintos
+    @{ i = 6; data = $dates[5]; turno = "MANHA" }   # Tec. Bruno Almeida
+    @{ i = 1; data = $dates[5]; turno = "TARDE" }   # Dra. Ana Paula Ribeiro
+
+    # Dia +6: plantao isolado
+    @{ i = 4; data = $dates[6]; turno = "MANHA" }   # Enf. Marcos Oliveira
 )
 
 foreach ($p in $plantoes) {
