@@ -42,15 +42,6 @@ async function submit() {
     formError.value = e.response?.data?.message ?? 'Erro ao cadastrar profissional'
   }
 }
-
-function categoryClass(category: string): string {
-  const map: Record<string, string> = {
-    'MÉDICO': 'badge-medico',
-    'ENFERMEIRO': 'badge-enfermeiro',
-    'TÉCNICO': 'badge-tecnico',
-  }
-  return `badge ${map[category] ?? 'badge-medico'}`
-}
 </script>
 
 <template>
@@ -138,10 +129,7 @@ function categoryClass(category: string): string {
 
     <section class="card">
       <h2>Lista</h2>
-      <div v-if="store.loading" class="loading-state">
-        <span class="spinner"></span>
-        Carregando...
-      </div>
+      <p v-if="store.loading">Carregando...</p>
       <p v-else-if="store.error" class="error">{{ store.error }}</p>
       <table v-else-if="store.professionals.length">
         <thead>
@@ -156,14 +144,14 @@ function categoryClass(category: string): string {
         <tbody>
           <tr v-for="p in store.professionals" :key="p.id">
             <td>{{ p.name }}</td>
-            <td><span :class="categoryClass(p.registration.category)">{{ p.registration.category }}</span></td>
+            <td>{{ p.registration.category }}</td>
             <td>{{ p.registration.type }} {{ p.registration.registrationNumber }}</td>
             <td>{{ p.registration.state }}</td>
             <td>{{ p.workSchedule }}h</td>
           </tr>
         </tbody>
       </table>
-      <p v-else class="empty-state">Nenhum profissional cadastrado ainda.</p>
+      <p v-else>Nenhum profissional cadastrado.</p>
     </section>
   </div>
 </template>
