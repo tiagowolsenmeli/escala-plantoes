@@ -83,7 +83,7 @@ foreach ($p in $plantoes) {
     $resp = Post-Json "$base/plantoes" $tmpFile
     if ($null -ne $resp) {
         $r = $resp | ConvertFrom-Json
-        Write-Host "  OK  $($r.data) $($r.turno) — $($r.professionalName)"
+        Write-Host "  OK  $($r.data) $($r.turno) - $($r.professionalName)"
     }
 }
 
