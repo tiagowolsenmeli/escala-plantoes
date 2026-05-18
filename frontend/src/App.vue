@@ -137,5 +137,4 @@ import AppFooter from '@/components/AppFooter.vue'
   border-left: 3px solid var(--color-primary);
   padding-left: calc(0.75rem - 3px);
 }
-
 </style>
