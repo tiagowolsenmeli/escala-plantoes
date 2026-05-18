@@ -66,15 +66,16 @@ import { RouterLink, RouterView } from 'vue-router'
 .sidebar-logo {
   background: white;
   border-radius: 8px;
-  padding: 0.45rem 0.75rem;
   width: 100%;
+  height: 46px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .sidebar-logo img {
-  height: 26px;
+  height: 70px;
   width: auto;
   display: block;
 }
