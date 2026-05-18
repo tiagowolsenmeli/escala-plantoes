@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**Escala de Plantões** — a Spring Boot REST API for managing hospital shift scheduling. Currently handles professional registration and listing; shift scheduling features are planned.
+**Escala de Plantões** — a Spring Boot REST API + Vue 3 frontend for managing hospital shift scheduling. Handles professional registration, shift (plantão) creation/deletion, and weekly schedule listing.
 
 ## Commands
 
@@ -22,7 +22,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew test --tests "escala_plantoes.com.example.demo.DemoApplicationTests"
 ```
 
-H2 console is available at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:escaladb`, user: `sa`, no password). The schema is created and dropped on each run (`ddl-auto: create-drop`).
+H2 runs in **file mode** in development (`jdbc:h2:file:./escaladb`, `ddl-auto: update`). H2 console at `http://localhost:8080/h2-console` (user: `sa`, no password). Tests override this with in-memory H2 via `src/test/resources/application.yaml`.
+
+All REST endpoints are prefixed with `/api` (e.g. `POST /api/professionals`, `GET /api/escala`).
+
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev      # dev server at http://localhost:5173
+npm run build    # type-check + production build
+```
+
+Vue 3 + Vite + TypeScript. Views: `ProfessionalsView`, `PlantaoView`, `EscalaView`. Uses `axios` for API calls and `vue-router` for navigation. The frontend calls the backend at the same host on port 8080 (no proxy config — run backend separately).
+
+## Seed
+
+```powershell
+# With backend running at localhost:8080
+.\seed\seed.ps1
+```
+
+Registers 7 fictitious professionals and 12 plantões across the next 7 days. Safe to run multiple times — registration numbers are suffixed with a timestamp.
 
 ## Architecture
 
@@ -63,7 +85,7 @@ demo/
 ## Feature: Professional
 
 ### controller/
-- `ProfessionalController` — endpoints REST do profissional (`POST /professionals`, `GET /professionals`, `GET /professionals/category`)
+- `ProfessionalController` — endpoints REST do profissional (`POST /api/professionals`, `GET /api/professionals`, `GET /api/professionals/category`)
 - `dto/ProfessionalRequestDTO` — record de entrada para cadastro do profissional
 - `dto/ProfessionalRegistrationRequestDTO` — record de entrada para os dados de registro (embutido no request de cadastro)
 - `dto/ProfessionalResponseDTO` — record de saída com factory `from(Professional)`
@@ -92,14 +114,14 @@ demo/
 ## Feature: Escala
 
 ### controller/
-- `EscalaController` — `GET /escala?data=YYYY-MM-DD` — retorna os plantões dos 7 dias a partir da data informada
+- `EscalaController` — `GET /api/escala?data=YYYY-MM-DD` — retorna os plantões dos 7 dias a partir da data informada
 
 ---
 
 ## Feature: Plantao
 
 ### controller/
-- `PlantaoController` — endpoints REST do plantão (`POST /plantoes`, `DELETE /plantoes/{id}`)
+- `PlantaoController` — endpoints REST do plantão (`POST /api/plantoes`, `DELETE /api/plantoes/{id}`)
 - `dto/PlantaoRequestDTO` — record de entrada: `professionalId` (Long), `data` (LocalDate), `turno` (Turno)
 - `dto/PlantaoResponseDTO` — record de saída com factory `from(Plantao)`
 
@@ -122,7 +144,6 @@ demo/
 
 ## Tech stack
 
-- Java 21, Spring Boot 4.x
-- Spring Data JPA + H2 (in-memory, development only)
-- Lombok (`@Getter`, `@Setter`, `@NoArgsConstructor` on entities)
-- JUnit 5 via `spring-boot-starter-*-test`
+**Backend:** Java 21, Spring Boot 4.x, Spring Data JPA, H2, Lombok, JUnit 5
+
+**Frontend:** Vue 3, Vite 8, TypeScript, Vue Router 5, Pinia, Axios
