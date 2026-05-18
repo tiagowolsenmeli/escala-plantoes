@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import AppFooter from '@/components/AppFooter.vue'
 </script>
 
 <template>
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-logo">
-        <img src="@/assets/spdata.png" alt="SPDATA" />
+        <a href="https://spdata.com.br/" target="_blank" rel="noopener noreferrer">
+          <img src="@/assets/spdata.png" alt="SPDATA" />
+        </a>
       </div>
       <span class="sidebar-product">Escala de Plantões</span>
     </div>
@@ -37,9 +40,19 @@ import { RouterLink, RouterView } from 'vue-router'
         Escala
       </RouterLink>
     </nav>
+    <div class="sidebar-contact">
+      <a href="tel:+553133992500" class="sidebar-phone">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.08 6.08l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.92 16.92z" />
+        </svg>
+        (31) 3399-2500
+      </a>
+      <span class="sidebar-hours">Seg–Sex: 7h30–12h / 13h30–17h</span>
+    </div>
   </aside>
   <main class="main-content">
     <RouterView />
+    <AppFooter />
   </main>
 </template>
 
@@ -122,5 +135,34 @@ import { RouterLink, RouterView } from 'vue-router'
   font-weight: 600;
   border-left: 3px solid var(--color-primary);
   padding-left: calc(0.75rem - 3px);
+}
+
+.sidebar-contact {
+  margin-top: auto;
+  padding: 1rem 1rem 0;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-phone {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.sidebar-phone:hover {
+  text-decoration: underline;
+}
+
+.sidebar-hours {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
 }
 </style>
