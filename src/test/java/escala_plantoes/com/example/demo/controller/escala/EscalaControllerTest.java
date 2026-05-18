@@ -29,14 +29,14 @@ class EscalaControllerTest {
 
     @Test
     void escala_returnsEmpty_whenNoPlantoes() throws Exception {
-        mockMvc.perform(get("/escala").param("data", LocalDate.now().toString()))
+        mockMvc.perform(get("/api/escala").param("data", LocalDate.now().toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
     void escala_returnsBadRequest_whenDataIsMissing() throws Exception {
-        mockMvc.perform(get("/escala"))
+        mockMvc.perform(get("/api/escala"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -47,7 +47,7 @@ class EscalaControllerTest {
 
         registerPlantao(professionalId, start.toString(), "MANHA");
 
-        mockMvc.perform(get("/escala").param("data", start.toString()))
+        mockMvc.perform(get("/api/escala").param("data", start.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].professionalId").value(professionalId))
@@ -69,7 +69,7 @@ class EscalaControllerTest {
         registerPlantao(professionalId, start.plusDays(1).toString(), "TARDE");
         registerPlantao(professionalId, start.plusDays(2).toString(), "NOITE");
 
-        mockMvc.perform(get("/escala").param("data", start.toString()))
+        mockMvc.perform(get("/api/escala").param("data", start.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].plantoes", hasSize(3)));
@@ -84,7 +84,7 @@ class EscalaControllerTest {
         registerPlantao(id1, start.toString(), "MANHA");
         registerPlantao(id2, start.toString(), "TARDE");
 
-        mockMvc.perform(get("/escala").param("data", start.toString()))
+        mockMvc.perform(get("/api/escala").param("data", start.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
@@ -96,7 +96,7 @@ class EscalaControllerTest {
 
         registerPlantao(professionalId, start.toString(), "MANHA");
 
-        mockMvc.perform(get("/escala").param("data", start.toString()))
+        mockMvc.perform(get("/api/escala").param("data", start.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].plantoes[0].data").value(start.toString()));
@@ -110,7 +110,7 @@ class EscalaControllerTest {
 
         registerPlantao(professionalId, end.toString(), "NOITE");
 
-        mockMvc.perform(get("/escala").param("data", start.toString()))
+        mockMvc.perform(get("/api/escala").param("data", start.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].plantoes[0].data").value(end.toString()));
@@ -122,7 +122,7 @@ class EscalaControllerTest {
         // Plantão hoje (válido por @FutureOrPresent), mas escala começa amanhã
         registerPlantao(professionalId, LocalDate.now().toString(), "MANHA");
 
-        mockMvc.perform(get("/escala").param("data", LocalDate.now().plusDays(1).toString()))
+        mockMvc.perform(get("/api/escala").param("data", LocalDate.now().plusDays(1).toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -134,7 +134,7 @@ class EscalaControllerTest {
         // start+7 é o 8º dia, fora do intervalo [start, start+6]
         registerPlantao(professionalId, start.plusDays(7).toString(), "MANHA");
 
-        mockMvc.perform(get("/escala").param("data", start.toString()))
+        mockMvc.perform(get("/api/escala").param("data", start.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -142,7 +142,7 @@ class EscalaControllerTest {
     // --- helpers ---
 
     private Long registerProfessional(String name, String category, String registrationNumber) throws Exception {
-        String response = mockMvc.perform(post("/professionals")
+        String response = mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "name", name,
@@ -160,7 +160,7 @@ class EscalaControllerTest {
     }
 
     private Long registerPlantao(Long professionalId, String date, String turno) throws Exception {
-        String response = mockMvc.perform(post("/plantoes")
+        String response = mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
