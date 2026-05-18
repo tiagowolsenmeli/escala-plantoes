@@ -1,7 +1,7 @@
 package escala_plantoes.com.example.demo.controller.escala;
 
 import escala_plantoes.com.example.demo.controller.escala.dto.EscalaResponseDTO;
-import escala_plantoes.com.example.demo.usecase.plantao.ListEscalaUseCase;
+import escala_plantoes.com.example.demo.usecase.escala.ListEscalaUseCase;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

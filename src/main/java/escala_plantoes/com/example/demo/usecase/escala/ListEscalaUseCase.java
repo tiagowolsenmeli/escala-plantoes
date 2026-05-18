@@ -1,4 +1,4 @@
-package escala_plantoes.com.example.demo.usecase.plantao;
+package escala_plantoes.com.example.demo.usecase.escala;
 
 import escala_plantoes.com.example.demo.controller.escala.dto.EscalaResponseDTO;
 import escala_plantoes.com.example.demo.domain.plantao.Plantao;
@@ -22,10 +22,12 @@ public class ListEscalaUseCase {
 
     public List<EscalaResponseDTO> execute(LocalDate dataInicio) {
         LocalDate dataFim = dataInicio.plusDays(6);
-        Map<Professional, List<Plantao>> byProfessional = plantaoService.listByPeriod(dataInicio, dataFim)
-                .stream()
-                .collect(Collectors.groupingBy(Plantao::getProfessional));
+        Map<Professional, List<Plantao>> byProfessional = getAllPlantoesOfSevenDaysRangeByProfessional(dataInicio, dataFim);
 
+        return convertToEscalaResponseDTOList(byProfessional);
+    }
+
+    private static List<EscalaResponseDTO> convertToEscalaResponseDTOList(Map<Professional, List<Plantao>> byProfessional) {
         return byProfessional.entrySet().stream()
                 .map(e -> {
                     Professional p = e.getKey();
@@ -38,5 +40,11 @@ public class ListEscalaUseCase {
                     );
                 })
                 .toList();
+    }
+
+    private Map<Professional, List<Plantao>> getAllPlantoesOfSevenDaysRangeByProfessional(LocalDate dataInicio, LocalDate dataFim) {
+        return plantaoService.listByPeriod(dataInicio, dataFim)
+                .stream()
+                .collect(Collectors.groupingBy(Plantao::getProfessional));
     }
 }

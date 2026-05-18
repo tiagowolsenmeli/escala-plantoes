@@ -1,4 +1,4 @@
-package escala_plantoes.com.example.demo.controller;
+package escala_plantoes.com.example.demo.integrationTest.controller;
 
 import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
