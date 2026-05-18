@@ -59,10 +59,10 @@ $plantoes = @(
     # Dia +3: plantao isolado
     @{ i = 2; data = $dates[3]; turno = "NOITE" }   # Dr. Ricardo Lima
 
-    # Dia +4: MANHA + TARDE + NOITE no mesmo dia (1 medico, 1 enfermeiro, 1 tecnico)
+    # Dia +4: mesmo medico com plantao MANHA + TARDE + NOITE no mesmo dia
     @{ i = 0; data = $dates[4]; turno = "MANHA" }   # Dr. Carlos Mendes
-    @{ i = 3; data = $dates[4]; turno = "TARDE" }   # Enf. Juliana Santos
-    @{ i = 5; data = $dates[4]; turno = "NOITE" }   # Tec. Fernanda Costa
+    @{ i = 0; data = $dates[4]; turno = "TARDE" }   # Dr. Carlos Mendes
+    @{ i = 0; data = $dates[4]; turno = "NOITE" }   # Dr. Carlos Mendes
 
     # Dia +5: plantoes isolados em turnos distintos
     @{ i = 6; data = $dates[5]; turno = "MANHA" }   # Tec. Bruno Almeida
