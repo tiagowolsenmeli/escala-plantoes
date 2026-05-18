@@ -14,7 +14,7 @@ function Post-Json($url, $jsonFile) {
     $body = $lines[0]
     $code = $lines[1]
     if ($code -ne "200") {
-        Write-Host "  ERRO $code: $body" -ForegroundColor Red
+        Write-Host "  ERRO ${code}: $body" -ForegroundColor Red
         return $null
     }
     return $body
