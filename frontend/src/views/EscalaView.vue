@@ -43,6 +43,11 @@ function formatDia(data: string): string {
   return `${d}/${m}`
 }
 
+function isWeekend(data: string): boolean {
+  const day = new Date(data + 'T00:00:00').getDay()
+  return day === 0 || day === 6
+}
+
 function turnosDoDia(prof: EscalaResponse, data: string): string[] {
   return prof.plantoes
     .filter(p => p.data === data)
@@ -63,7 +68,10 @@ function turnosDoDia(prof: EscalaResponse, data: string): string[] {
       </form>
     </section>
 
-    <p v-if="loading">Carregando...</p>
+    <div v-if="loading" class="loading-state">
+      <span class="spinner"></span>
+      Carregando escala...
+    </div>
     <p v-else-if="error" class="error">{{ error }}</p>
 
     <section v-else-if="escala.length" class="card escala-card">
@@ -72,8 +80,12 @@ function turnosDoDia(prof: EscalaResponse, data: string): string[] {
           <thead>
             <tr>
               <th class="col-prof">Profissional</th>
-              <th v-for="dia in dias" :key="dia" class="col-dia">
-                <span class="dia-semana">{{ diaSemana(dia) }}</span>
+              <th
+                v-for="dia in dias"
+                :key="dia"
+                :class="['col-dia', { weekend: isWeekend(dia) }]"
+              >
+                <span :class="['dia-semana', { 'is-weekend': isWeekend(dia) }]">{{ diaSemana(dia) }}</span>
                 <span class="dia-data">{{ formatDia(dia) }}</span>
               </th>
             </tr>
@@ -84,12 +96,19 @@ function turnosDoDia(prof: EscalaResponse, data: string): string[] {
                 <span class="prof-nome">{{ prof.professionalName }}</span>
                 <span class="prof-info">{{ prof.professionalCategory }} · {{ prof.professionalRegistrationNumber }}</span>
               </td>
-              <td v-for="dia in dias" :key="dia" class="col-turnos">
-                <span
-                  v-for="turno in turnosDoDia(prof, dia)"
-                  :key="turno"
-                  :class="['turno-badge', `turno-${turno.toLowerCase()}`]"
-                >{{ turnoLabel[turno] }}</span>
+              <td
+                v-for="dia in dias"
+                :key="dia"
+                :class="['col-turnos', { weekend: isWeekend(dia) }]"
+              >
+                <template v-if="turnosDoDia(prof, dia).length">
+                  <span
+                    v-for="turno in turnosDoDia(prof, dia)"
+                    :key="turno"
+                    :class="['turno-badge', `turno-${turno.toLowerCase()}`]"
+                  >{{ turnoLabel[turno] }}</span>
+                </template>
+                <span v-else class="cell-empty">—</span>
               </td>
             </tr>
           </tbody>
@@ -97,7 +116,7 @@ function turnosDoDia(prof: EscalaResponse, data: string): string[] {
       </div>
     </section>
 
-    <p v-else-if="!loading && error === null">
+    <p v-else-if="!loading && error === null" class="empty-state">
       Nenhum plantão encontrado para este período.
     </p>
   </div>

@@ -49,12 +49,15 @@ import AppFooter from '@/components/AppFooter.vue'
 
 <style scoped>
 .sidebar {
-  width: 220px;
+  width: 240px;
   flex-shrink: 0;
   background: #c5d9f2;
   display: flex;
   flex-direction: column;
   padding: 1.5rem 0;
+  box-shadow: 2px 0 16px rgba(29, 79, 145, 0.08);
+  position: relative;
+  z-index: 10;
 }
 
 .sidebar-brand {
@@ -63,14 +66,20 @@ import AppFooter from '@/components/AppFooter.vue'
   align-items: center;
   gap: 0.5rem;
   padding: 0 1rem 1.25rem;
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(29, 79, 145, 0.2);
+  margin-bottom: 1.25rem;
 }
 
 .sidebar-logo {
   width: 100%;
   height: 46px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,21 +92,22 @@ import AppFooter from '@/components/AppFooter.vue'
 }
 
 .sidebar-product {
-  color: var(--color-primary);
-  font-size: 0.72rem;
-  font-weight: 500;
+  color: var(--color-primary-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
   text-align: center;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
   padding: 0.5rem;
   margin: 0 0.75rem;
-  border: 1.5px solid var(--color-primary-dark);
-  border-radius: 8px;
+  border: 1.5px solid rgba(29, 79, 145, 0.3);
+  border-radius: var(--radius-md);
 }
 
 .sidebar-nav a {
@@ -107,25 +117,24 @@ import AppFooter from '@/components/AppFooter.vue'
   padding: 0.625rem 0.75rem;
   color: var(--color-primary);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   transition:
     background 0.15s,
     color 0.15s;
 }
 
 .sidebar-nav a:hover {
-  background: rgba(26, 92, 181, 0.12);
+  background: rgba(29, 79, 145, 0.1);
   color: var(--color-primary-dark);
 }
 
 .sidebar-nav a.router-link-active {
-  background: rgba(26, 92, 181, 0.15);
+  background: rgba(29, 79, 145, 0.14);
   color: var(--color-primary-dark);
-  font-weight: 600;
+  font-weight: 700;
   border-left: 3px solid var(--color-primary);
   padding-left: calc(0.75rem - 3px);
 }
-
 </style>
