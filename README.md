@@ -80,3 +80,9 @@ Escala de Plantões
 **Justificativa:** Erros de cadastro são comuns em fluxos manuais. Permitir a remoção imediata evita que o usuário precise acionar suporte ou intervenção técnica para corrigir um lançamento errado.
 
 **Consequências:** O endpoint `DELETE /api/plantoes/{id}` é exposto e acessível diretamente pela interface; a operação é irreversível.
+
+---
+
+## Melhorias Futuras
+
+Veja o arquivo [IMPROVEMENTS.md](IMPROVEMENTS.md) para a lista de melhorias e funcionalidades planejadas.

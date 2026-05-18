@@ -116,6 +116,9 @@ demo/
 ### controller/
 - `EscalaController` — `GET /api/escala?data=YYYY-MM-DD` — retorna os plantões dos 7 dias a partir da data informada
 
+### usecase/
+- `ListEscalaUseCase` — retorna os plantões dos 7 dias a partir de `dataInicio` (inclusive), agrupados por profissional
+
 ---
 
 ## Feature: Plantao
@@ -138,7 +141,6 @@ demo/
 ### usecase/
 - `RegisterPlantaoUseCase` — cria um plantão; busca o `Professional` via `ProfessionalService.findById()`
 - `DeletePlantaoUseCase` — exclui um plantão pelo id; lança `IllegalArgumentException` se não existir
-- `ListEscalaUseCase` — retorna os plantões dos 7 dias a partir de `dataInicio` (inclusive), ordenados por data e turno
 
 ---
 

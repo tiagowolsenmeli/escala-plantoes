@@ -1,4 +1,4 @@
-package escala_plantoes.com.example.demo.controller.plantao;
+package escala_plantoes.com.example.demo.integrationTest.controller.plantao;
 
 import tools.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
