@@ -35,7 +35,7 @@ class ProfessionalControllerTest {
 
     @Test
     void register_returnsIdOnSuccess() throws Exception {
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validRequest()))
                 .andExpect(status().isOk())
@@ -45,12 +45,12 @@ class ProfessionalControllerTest {
 
     @Test
     void register_persistsProfessionalVisibleInList() throws Exception {
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validRequest()))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/professionals"))
+        mockMvc.perform(get("/api/professionals"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$[0].name").value("Dr. João Silva"))
@@ -73,7 +73,7 @@ class ProfessionalControllerTest {
                 )
         );
 
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -92,7 +92,7 @@ class ProfessionalControllerTest {
                 )
         );
 
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -105,7 +105,7 @@ class ProfessionalControllerTest {
                 "workSchedule", 20
         );
 
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -124,7 +124,7 @@ class ProfessionalControllerTest {
                 )
         );
 
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -143,7 +143,7 @@ class ProfessionalControllerTest {
                 )
         );
 
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -230,7 +230,7 @@ class ProfessionalControllerTest {
 
     private void register(String name, int workSchedule, String category,
                           String state, String type, String registrationNumber) throws Exception {
-        mockMvc.perform(post("/professionals")
+        mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "name", name,
@@ -246,7 +246,7 @@ class ProfessionalControllerTest {
     }
 
     private org.springframework.test.web.servlet.ResultActions listByCategory(String category) throws Exception {
-        return mockMvc.perform(get("/professionals/category")
+        return mockMvc.perform(get("/api/professionals/category")
                 .param("category", category))
                 .andExpect(status().isOk());
     }

@@ -29,7 +29,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void register_returnsNotFound_whenProfessionalDoesNotExist() throws Exception {
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", 99999,
@@ -47,7 +47,7 @@ class GlobalExceptionHandlerTest {
 
         registerPlantao(professionalId, date, "MANHA");
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -59,7 +59,7 @@ class GlobalExceptionHandlerTest {
     }
 
     private Long registerProfessional() throws Exception {
-        String response = mockMvc.perform(post("/professionals")
+        String response = mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "name", "Dr. João Silva",
@@ -77,7 +77,7 @@ class GlobalExceptionHandlerTest {
     }
 
     private Long registerPlantao(Long professionalId, String date, String turno) throws Exception {
-        String response = mockMvc.perform(post("/plantoes")
+        String response = mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,

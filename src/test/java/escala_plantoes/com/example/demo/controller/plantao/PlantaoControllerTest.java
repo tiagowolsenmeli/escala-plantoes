@@ -36,7 +36,7 @@ class PlantaoControllerTest {
         Long professionalId = registerProfessional();
         String date = LocalDate.now().plusDays(1).toString();
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -61,7 +61,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, date, "MANHA");
         registerPlantao(professionalId, date, "TARDE");
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -73,7 +73,7 @@ class PlantaoControllerTest {
 
     @Test
     void register_returnsBadRequest_whenProfessionalIdIsNull() throws Exception {
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "data", LocalDate.now().plusDays(1).toString(),
@@ -84,7 +84,7 @@ class PlantaoControllerTest {
 
     @Test
     void register_returnsBadRequest_whenProfessionalIdIsZero() throws Exception {
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", 0,
@@ -98,7 +98,7 @@ class PlantaoControllerTest {
     void register_returnsBadRequest_whenDataIsNull() throws Exception {
         Long professionalId = registerProfessional();
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -111,7 +111,7 @@ class PlantaoControllerTest {
     void register_returnsBadRequest_whenDataIsInThePast() throws Exception {
         Long professionalId = registerProfessional();
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -125,7 +125,7 @@ class PlantaoControllerTest {
     void register_returnsBadRequest_whenTurnoIsNull() throws Exception {
         Long professionalId = registerProfessional();
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -141,7 +141,7 @@ class PlantaoControllerTest {
 
         registerPlantao(professionalId, date, "MANHA");
 
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -161,13 +161,13 @@ class PlantaoControllerTest {
         entityManager.flush();
         entityManager.clear();
 
-        mockMvc.perform(delete("/plantoes/" + plantaoId))
+        mockMvc.perform(delete("/api/plantoes/" + plantaoId))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void delete_returnsNotFound_whenIdNotFound() throws Exception {
-        mockMvc.perform(delete("/plantoes/99999"))
+        mockMvc.perform(delete("/api/plantoes/99999"))
                 .andExpect(status().isNotFound());
     }
 
@@ -179,13 +179,13 @@ class PlantaoControllerTest {
         entityManager.flush();
         entityManager.clear();
 
-        mockMvc.perform(delete("/plantoes/" + plantaoId))
+        mockMvc.perform(delete("/api/plantoes/" + plantaoId))
                 .andExpect(status().isNoContent());
 
         entityManager.flush();
         entityManager.clear();
 
-        mockMvc.perform(delete("/plantoes/" + plantaoId))
+        mockMvc.perform(delete("/api/plantoes/" + plantaoId))
                 .andExpect(status().isNotFound());
     }
 
@@ -199,7 +199,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(2).toString(), "NOITE"); // 12h
 
         // 24h acumulados + 6h = 30h = limite → deve aceitar
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -216,7 +216,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "NOITE"); // 12h
 
         // 12h + 12h = 24h > 20h → deve rejeitar com 422 e mensagem
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -235,7 +235,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(2).toString(), "MANHA"); // 6h
 
         // 18h acumulados + 6h = 24h > 20h → deve rejeitar (NOITE contado como 12h)
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -252,7 +252,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "NOITE");
 
         // 0h na janela de D+5 + 12h novo = 12h ≤ 20h → deve aceitar
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -269,7 +269,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "NOITE");
 
         // 12h + 12h = 24h > 20h → D+1 deve ser contado na janela de D+4
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -286,7 +286,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(1).toString(), "NOITE");
 
         // 0h na janela de D+5 + 12h novo = 12h ≤ 20h → D+1 não deve ser contado
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -303,7 +303,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(4).toString(), "NOITE");
 
         // 12h + 12h = 24h > 20h → D+4 deve ser contado na janela de D+1
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -320,7 +320,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, LocalDate.now().plusDays(5).toString(), "NOITE");
 
         // 0h na janela de D+1 + 12h novo = 12h ≤ 20h → D+5 não deve ser contado
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -341,7 +341,7 @@ class PlantaoControllerTest {
         registerPlantao(professionalId, base.plusDays(1).toString(), "MANHA"); // 6h
 
         // 30h acumulados na janela de base + 6h novo = 36h > 30h → deve rejeitar
-        mockMvc.perform(post("/plantoes")
+        mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
@@ -358,7 +358,7 @@ class PlantaoControllerTest {
     }
 
     private Long registerProfessionalWithSchedule(int workSchedule) throws Exception {
-        String response = mockMvc.perform(post("/professionals")
+        String response = mockMvc.perform(post("/api/professionals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "name", "Dr. João Silva",
@@ -376,7 +376,7 @@ class PlantaoControllerTest {
     }
 
     private Long registerPlantao(Long professionalId, String date, String turno) throws Exception {
-        String response = mockMvc.perform(post("/plantoes")
+        String response = mockMvc.perform(post("/api/plantoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "professionalId", professionalId,
