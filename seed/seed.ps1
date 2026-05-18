@@ -26,13 +26,17 @@ Write-Host "Cadastrando profissionais..." -ForegroundColor Cyan
 
 $profFiles = @("p1.json","p2.json","p3.json","p4.json","p5.json","p6.json","p7.json")
 $ids = @()
+$suffix = (Get-Date -Format "MMddHHmm")
 
 foreach ($file in $profFiles) {
-    $resp = Post-Json "$base/professionals" "$seed\$file"
+    $prof = Get-Content "$seed\$file" -Encoding UTF8 | ConvertFrom-Json
+    $prof.registration.registrationNumber = $prof.registration.registrationNumber + $suffix
+    $json = $prof | ConvertTo-Json -Compress
+    [System.IO.File]::WriteAllText($tmpFile, $json, $utf8NoBom)
+    $resp = Post-Json "$base/professionals" $tmpFile
     if ($null -ne $resp) {
         $ids += [long]$resp
-        $name = (Get-Content "$seed\$file" | ConvertFrom-Json).name
-        Write-Host "  OK  $name (ID $resp)"
+        Write-Host "  OK  $($prof.name) (ID $resp)"
     } else {
         $ids += 0
     }
@@ -73,12 +77,12 @@ $plantoes = @(
 )
 
 foreach ($p in $plantoes) {
-    $pid = $ids[$p.i]
-    if ($pid -le 0) {
+    $profId = $ids[$p.i]
+    if ($profId -le 0) {
         Write-Host "  SKIP $($p.data) $($p.turno) (profissional nao cadastrado)" -ForegroundColor Yellow
         continue
     }
-    $json = '{"professionalId":' + $pid + ',"data":"' + $p.data + '","turno":"' + $p.turno + '"}'
+    $json = '{"professionalId":' + $profId + ',"data":"' + $p.data + '","turno":"' + $p.turno + '"}'
     [System.IO.File]::WriteAllText($tmpFile, $json, $utf8NoBom)
     $resp = Post-Json "$base/plantoes" $tmpFile
     if ($null -ne $resp) {
