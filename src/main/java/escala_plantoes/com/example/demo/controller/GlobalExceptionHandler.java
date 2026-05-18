@@ -44,9 +44,4 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(ex.getMessage());
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    ErrorResponse handleIllegalState(IllegalStateException ex) {
-        return new ErrorResponse(ex.getMessage());
-    }
 }
