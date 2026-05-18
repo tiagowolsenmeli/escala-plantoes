@@ -11,7 +11,15 @@ const today = new Date().toISOString().slice(0, 10)
 const form = reactive({ professionalId: 0, data: today, turno: 'MANHA' as Turno })
 const success = ref(false)
 
+const turnoLabel: Record<string, string> = { MANHA: 'Manhã', TARDE: 'Tarde', NOITE: 'Noite' }
+const turnoClass: Record<string, string> = { MANHA: 'turno-manha', TARDE: 'turno-tarde', NOITE: 'turno-noite' }
+
 onMounted(() => professionalsStore.fetch())
+
+function formatDate(date: string): string {
+  const [y, m, d] = date.split('-')
+  return `${d}/${m}/${y}`
+}
 
 async function submit() {
   success.value = false
@@ -60,7 +68,11 @@ async function submit() {
 
     <section class="card">
       <h2>Plantões registrados nesta sessão</h2>
-      <table v-if="plantoesStore.plantoes.length">
+      <div v-if="plantoesStore.loading" class="loading-state">
+        <span class="spinner"></span>
+        Carregando...
+      </div>
+      <table v-else-if="plantoesStore.plantoes.length">
         <thead>
           <tr>
             <th>Profissional</th>
@@ -72,13 +84,17 @@ async function submit() {
         <tbody>
           <tr v-for="p in plantoesStore.plantoes" :key="p.id">
             <td>{{ p.professionalName }}</td>
-            <td>{{ p.data }}</td>
-            <td>{{ p.turno }}</td>
+            <td>{{ formatDate(p.data) }}</td>
+            <td>
+              <span :class="`turno-badge ${turnoClass[p.turno]}`">
+                {{ turnoLabel[p.turno] }}
+              </span>
+            </td>
             <td><button class="btn-delete" @click="plantoesStore.remove(p.id)">Remover</button></td>
           </tr>
         </tbody>
       </table>
-      <p v-else>Nenhum plantão registrado nesta sessão.</p>
+      <p v-else class="empty-state">Nenhum plantão registrado nesta sessão.</p>
     </section>
   </div>
 </template>

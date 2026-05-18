@@ -1,19 +1,19 @@
 :root {
-  --color-primary: #1a5cb5;
-  --color-primary-dark: #154d99;
-  --color-primary-light: #e4edf9;
+  --color-primary: #1d4f91;
+  --color-primary-dark: #163d73;
+  --color-primary-light: #e3eaf6;
   --color-accent: #2bbdb5;
   --color-accent-dark: #229a93;
   --color-accent-light: #e0f5f4;
 
-  --color-background: #f8fafc;
+  --color-background: #f5f7fb;
   --color-surface: #ffffff;
-  --color-surface-muted: #f1f5f9;
+  --color-surface-muted: #f0f4fa;
   --color-border: #c5d9f2;
   --color-border-hover: #93bbdf;
 
   --color-text: #0f172a;
-  --color-text-muted: #64748b;
+  --color-text-muted: #5a6a85;
   --color-text-light: #94a3b8;
 
   --color-success: #059669;
@@ -29,11 +29,17 @@
   --color-noite-text: #4c1d95;
 
   --color-medico-bg: #e0e7ff;
-  --color-medico-text: #4338ca;
+  --color-medico-text: #3730a3;
   --color-enfermeiro-bg: #dcfce7;
   --color-enfermeiro-text: #166534;
   --color-tecnico-bg: #fed7aa;
   --color-tecnico-text: #9a3412;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 4px rgba(29, 79, 145, 0.07);
+  --shadow-md: 0 4px 16px rgba(29, 79, 145, 0.1);
 }
 
 *,
@@ -50,6 +56,7 @@ body {
   background: var(--color-background);
   line-height: 1.6;
   font-family:
+    'Nunito',
     Inter,
     -apple-system,
     BlinkMacSystemFont,

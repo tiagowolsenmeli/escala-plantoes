@@ -11,6 +11,8 @@
   background: var(--color-background);
   overflow-y: auto;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .page {
@@ -20,12 +22,13 @@
 }
 
 .page h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.45rem;
+  font-weight: 800;
   color: var(--color-primary);
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--color-primary-light);
+  border-bottom: 2px solid var(--color-border);
+  letter-spacing: -0.01em;
 }
 
 /* Cards */
@@ -33,19 +36,19 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-top: 3px solid var(--color-primary);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-sm);
 }
 
 .card h2 {
   margin-top: 0;
   margin-bottom: 1.25rem;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--color-primary);
 }
 
@@ -79,18 +82,20 @@
 
 .field label {
   font-size: 0.825rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-muted);
+  letter-spacing: 0.01em;
 }
 
 input,
 select {
   padding: 0.55rem 0.75rem;
   border: 1.5px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text);
   font-size: 0.925rem;
+  font-family: inherit;
   min-height: 42px;
   transition:
     border-color 0.15s,
@@ -100,45 +105,53 @@ select {
 
 input:focus,
 select:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-light);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
 .info-value {
   padding: 0.55rem 0.75rem;
   border: 1.5px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface-muted);
   color: var(--color-text);
   font-size: 0.925rem;
   min-height: 42px;
   display: flex;
   align-items: center;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 button {
   margin-top: 0.25rem;
-  padding: 0.55rem 1.25rem;
+  padding: 0.6rem 1.5rem;
   background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.01em;
   transition:
     background 0.15s,
-    box-shadow 0.15s;
+    box-shadow 0.15s,
+    transform 0.1s;
 }
 
 button:hover:not(:disabled) {
   background: var(--color-primary-dark);
-  box-shadow: 0 2px 8px rgba(26, 92, 181, 0.25);
+  box-shadow: 0 4px 12px rgba(29, 79, 145, 0.3);
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 button:disabled {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -150,11 +163,13 @@ button.btn-delete {
   padding: 0.3rem 0.75rem;
   font-size: 0.825rem;
   box-shadow: none;
+  transform: none;
 }
 
 button.btn-delete:hover:not(:disabled) {
   background: var(--color-error-light);
   box-shadow: none;
+  transform: none;
 }
 
 /* Tables */
@@ -177,10 +192,10 @@ td {
 }
 
 th {
-  font-weight: 700;
-  font-size: 0.75rem;
+  font-weight: 800;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
   color: var(--color-primary);
 }
 
@@ -198,7 +213,7 @@ table:not(.escala-grid) tbody tr:hover td {
 
 .inline-form label {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-muted);
   white-space: nowrap;
 }
@@ -231,7 +246,7 @@ table:not(.escala-grid) tbody tr:hover td {
   width: 18px;
   height: 18px;
   border: 2px solid var(--color-border);
-  border-top-color: var(--color-accent);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -248,11 +263,11 @@ table:not(.escala-grid) tbody tr:hover td {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.55rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .badge-medico {
@@ -273,13 +288,13 @@ table:not(.escala-grid) tbody tr:hover td {
 /* Turno badges */
 .turno-badge {
   display: inline-block;
-  padding: 0.18rem 0.45rem;
+  padding: 0.18rem 0.5rem;
   border-radius: 4px;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0.1rem;
   white-space: nowrap;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 .turno-manha {
@@ -324,7 +339,7 @@ table:not(.escala-grid) tbody tr:hover td {
 }
 
 .escala-grid tbody td.weekend {
-  background: rgba(26, 92, 181, 0.04);
+  background: rgba(29, 79, 145, 0.03);
 }
 
 .col-prof {
@@ -344,14 +359,14 @@ table:not(.escala-grid) tbody tr:hover td {
 
 .dia-semana {
   display: block;
-  font-weight: 700;
-  font-size: 0.8rem;
+  font-weight: 800;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .dia-semana.is-weekend {
-  color: var(--color-accent);
+  color: var(--color-accent-dark);
 }
 
 .dia-data {
@@ -363,7 +378,7 @@ table:not(.escala-grid) tbody tr:hover td {
 
 .prof-nome {
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
 }
 
@@ -385,7 +400,7 @@ table:not(.escala-grid) tbody tr:hover td {
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
   background: var(--color-error-light);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-bottom: 0.75rem;
 }
 
@@ -404,6 +419,6 @@ table:not(.escala-grid) tbody tr:hover td {
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
   background: var(--color-success-light);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-bottom: 0.75rem;
 }
