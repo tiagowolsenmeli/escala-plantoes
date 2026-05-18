@@ -47,7 +47,8 @@ import { RouterLink, RouterView } from 'vue-router'
 .sidebar {
   width: 220px;
   flex-shrink: 0;
-  background: var(--color-primary);
+  background: #ffffff;
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   padding: 1.5rem 0;
@@ -59,13 +60,11 @@ import { RouterLink, RouterView } from 'vue-router'
   align-items: center;
   gap: 0.5rem;
   padding: 0 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 1rem;
 }
 
 .sidebar-logo {
-  background: white;
-  border-radius: 8px;
   width: 100%;
   height: 46px;
   overflow: hidden;
@@ -81,7 +80,7 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 .sidebar-product {
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-text-muted);
   font-size: 0.72rem;
   font-weight: 500;
   text-align: center;
@@ -100,7 +99,7 @@ import { RouterLink, RouterView } from 'vue-router'
   align-items: center;
   gap: 0.625rem;
   padding: 0.625rem 0.75rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-text-muted);
   text-decoration: none;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -111,12 +110,15 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 .sidebar-nav a:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .sidebar-nav a.router-link-active {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+  border-left: 3px solid var(--color-primary);
+  padding-left: calc(0.75rem - 3px);
 }
 </style>
